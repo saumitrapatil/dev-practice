@@ -12,7 +12,12 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+	const isValid = true
+	if (isValid) {
+		users.push({ firstName: req.body.firstName })
+	}
 	console.log(req.body.firstName)
+	res.send('Hi')
 })
 
 // router.get('/:id', (req, res) => {
