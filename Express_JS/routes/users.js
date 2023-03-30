@@ -1,16 +1,18 @@
 const express = require('express')
 const router = express.Router()
 
+router.use(logger)
+
 router.get('/', (req, res) => {
-    res.send('User List')
+	res.send('User List')
 })
 
 router.get('/new', (req, res) => {
-    res.send('User new form')
+	res.render('users/new')
 })
 
 router.post('/', (req, res) => {
-    res.send("Create form")
+	console.log(req.body.firstName)
 })
 
 // router.get('/:id', (req, res) => {
@@ -29,25 +31,30 @@ router.post('/', (req, res) => {
 // performed on the same path.
 
 router
-    .route("/:id")
-    .get((req, res) => {
-        res.send(`Get user with ID ${req.params.id}`)
-    })
-    .put((req, res) => {
-        res.send(`Update user with ID ${req.params.id}`)
-    })
-    .delete((req, res) => {
-        res.send(`Delete user with ID ${req.params.id}`)
-    })
+	.route('/:id')
+	.get((req, res) => {
+		res.send(`Get user with ID ${req.params.id}`)
+	})
+	.put((req, res) => {
+		res.send(`Update user with ID ${req.params.id}`)
+	})
+	.delete((req, res) => {
+		res.send(`Delete user with ID ${req.params.id}`)
+	})
 
-// .param() executes the function in it's second argument whenever it finds a 
+// .param() executes the function in it's second argument whenever it finds a
 // parameter with 'id'
 
-const users= [{ name: "John" }, { name: "Wick" }]
+const users = [{ name: 'John' }, { name: 'Wick' }]
 
-router.param("id", (req, res, next, id) => {
-    req.user = users[id]
-    next()
+router.param('id', (req, res, next, id) => {
+	req.user = users[id]
+	next()
 })
+
+function logger(req, res, next) {
+	console.log(req.originalUrl)
+	next()
+}
 
 module.exports = router
