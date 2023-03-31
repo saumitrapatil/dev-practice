@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 router.use(logger)
+router.use(express.json())
 
 router.get('/', (req, res) => {
 	console.log(req.query.name)
@@ -15,7 +16,11 @@ router.get('/new', (req, res) => {
 router.post('/', (req, res) => {
 	const isValid = true
 	if (isValid) {
-		users.push({ firstName: req.body.firstName })
+		users.push({
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			age: req.body.age,
+		})
 		res.redirect(`/users/${users.length - 1}`)
 	} else {
 		console.log('Error')
@@ -54,7 +59,7 @@ router
 // .param() executes the function in it's second argument whenever it finds a
 // parameter with 'id'
 
-const users = [{ name: 'John' }, { name: 'Wick' }]
+const users = [{ name: 'akshay' }]
 
 router.param('id', (req, res, next, id) => {
 	req.user = users[id]
