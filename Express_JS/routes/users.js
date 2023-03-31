@@ -4,6 +4,7 @@ const router = express.Router()
 router.use(logger)
 
 router.get('/', (req, res) => {
+	console.log(req.query.name)
 	res.send('User List')
 })
 
@@ -15,9 +16,11 @@ router.post('/', (req, res) => {
 	const isValid = true
 	if (isValid) {
 		users.push({ firstName: req.body.firstName })
+		res.redirect(`/users/${users.length - 1}`)
+	} else {
+		console.log('Error')
+		res.render('users/new', { firstName: req.body.firstName })
 	}
-	console.log(req.body.firstName)
-	res.send('Hi')
 })
 
 // router.get('/:id', (req, res) => {
@@ -38,6 +41,7 @@ router.post('/', (req, res) => {
 router
 	.route('/:id')
 	.get((req, res) => {
+		console.log(req.user)
 		res.send(`Get user with ID ${req.params.id}`)
 	})
 	.put((req, res) => {
